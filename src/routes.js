@@ -25,6 +25,7 @@ import TableListCabang from "views/TableListCabang.js";
 import TambahPersediaan from "views/TambahPersediaan.js";
 import TableDetailBarangCabang from "views/TableDetailBarangCabang.js";
 import BuatPermintaan from "views/BuatPermintaan.js";
+import TambahCabang from "views/TambahCabang.js";
 import TableListUser from "views/TableListUser.js";
 import Typography from "views/Typography.js";
 import Icons from "views/Icons.js";
@@ -70,6 +71,12 @@ const dashboardRoutes = [
   {
     path: "/detail-cabang/:id",
     component: TableDetailBarangCabang,
+    layout: "/admin"
+  },
+  
+  {
+    path: "/buat-cabang",
+    component: TambahCabang,
     layout: "/admin"
   },
 

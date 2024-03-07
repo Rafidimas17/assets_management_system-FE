@@ -15,6 +15,9 @@ function TableListCabang() {
     const fetchCabangData = async () => {
       try {
         const token = Cookies.get('token');
+        if (!token) {
+          throw new Error('Authorization Token not found');
+        }
         const response = await axios.get("http://127.0.0.1:8000/api/center/cabang", {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -49,12 +52,17 @@ function TableListCabang() {
     return `${dd}/${mm}/${yyyy}`;
   };
 
+  const handleTambah = () => {
+    history.push('/admin/buat-cabang'); // Perubahan disini, menambahkan '/admin' sesuai dengan konfigurasi layout
+  };
+
   return (
     <>
+      {error && <div>Error: {error}</div>}
       <Container fluid>
         <Row className="mb-3">
           <Col md="12">
-            <Button style={{ borderRadius: "10px", backgroundColor: "white", color: "blue", border: "1px solid lightblue" }}>Tambah</Button>
+            <Button style={{ borderRadius: "10px", backgroundColor: "white", color: "blue", border: "1px solid lightblue" }} onClick={handleTambah}>Tambah</Button>
           </Col>
         </Row>
         <Row>

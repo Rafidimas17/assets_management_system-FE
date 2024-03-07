@@ -1,23 +1,6 @@
-/*!
-
-=========================================================
-* Light Bootstrap Dashboard React - v2.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import ReactDOM from "react-dom/client";
-
+import Cookies from "js-cookie";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -33,14 +16,33 @@ import Signup from "views/Signup";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+const isAuthenticated = () => {
+  // Lakukan pengecekan apakah token ada di cookies
+  const token = Cookies.get('token');
+  return token ? true : false;
+};
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
+    }
+  />
+);
+
 root.render(
   <BrowserRouter>
     <Switch>
-    <Route path="/login" component={Login} />
-    <Route path="/signup" component={Signup} />
-      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-      <Route path="/welcome" render={(props) => <WelcomeLayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={Signup} />
+      <PrivateRoute path="/admin" component={AdminLayout} />
+      <Route path="/welcome" component={WelcomeLayout} />
+      <Redirect from="/" to={isAuthenticated() ? "/admin/persediaan-barang" : "/login"} />
     </Switch>
   </BrowserRouter>
 );
