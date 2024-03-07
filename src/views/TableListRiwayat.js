@@ -158,7 +158,7 @@ function TableListRiwayat() {
                       <th className="border-0">Jumlah</th>
                       <th className="border-0">Status</th>
                       <th className="border-0">Tanggal Pengajuan</th>
-                      {(userRole === "Manager" || userRole === "HQ") && <th className="border-0">Aksi</th>}
+                      {(userRole === "Manager" || userRole === "HQ" || userRole === "Office"  ) && <th className="border-0">Aksi</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -175,11 +175,11 @@ function TableListRiwayat() {
             <td>{item.status}</td>
             <td>{item.tanggal_pengajuan}</td>
             {/* Menampilkan tombol hanya jika status bukan "rejected" atau "approved" */}
-            {item.status !== "rejected" && (
+            {/* {item.status === "rejected" || item.status === "approved" ( */}
               <td>
               <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={() => handleClick(item.id)}><FaEye color="yellow" /></Button>
               </td>
-            )}
+            {/* )} */}
             {/* Menampilkan kosong jika status "rejected" */}
             {item.status === "rejected" && <td></td>}
           </tr>
@@ -198,11 +198,11 @@ function TableListRiwayat() {
             <td>{item.status}</td>
             <td>{item.tanggal_pengajuan}</td>
             {/* Menampilkan tombol hanya jika status bukan "rejected" atau "approved" */}
-            {item.status !== "rejected" && (
+            {/* {item.status === "rejected" || item.status === "approved" ( */}
               <td>
               <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={() => handleClick(item.id)}><FaEye color="yellow" /></Button>
               </td>
-            )}
+            {/* )} */}
             {/* Menampilkan kosong jika status "rejected" */}
             {item.status === "rejected" && <td></td>}
           </tr>
@@ -220,6 +220,9 @@ function TableListRiwayat() {
             <td>{item.jumlah}</td>
             <td>{item.status}</td>
             <td>{item.tanggal_pengajuan}</td>
+            <td>
+              <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={() => handleClick(item.id)}><FaEye color="yellow" /></Button>
+              </td>
             {/* Menampilkan tombol hanya jika status bukan "rejected" atau "approved" */}
             
             {/* Menampilkan kosong jika status "rejected" */}
