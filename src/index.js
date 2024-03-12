@@ -17,7 +17,6 @@ import Signup from "views/Signup";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const isAuthenticated = () => {
-  // Lakukan pengecekan apakah token ada di cookies
   const token = Cookies.get('token');
   return token ? true : false;
 };
