@@ -135,10 +135,13 @@ function TableListPersediaan() {
                           <td>{item.kode_barang}</td> 
                           <td>{formattedDate}</td>
                           <td>{item.stock}</td>
-                          <td>
-                            <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={() => handleClick(item.id)}><FaEdit color="blue" /></Button>
-                            <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={() => handleDelete(item.id)}><FaTrash color="red" /></Button>
-                          </td>
+                          {userRole === 'HQ' && (
+  <td>
+    <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={() => handleClick(item.id)}><FaEdit color="blue" /></Button>
+    <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={() => handleDelete(item.id)}><FaTrash color="red" /></Button>
+  </td>
+)}
+
                         </tr>
                       );
                     })}

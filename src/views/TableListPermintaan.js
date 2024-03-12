@@ -47,6 +47,7 @@ function TableListPermintaan() {
           id: item.id,
           nama: item.nama,
           cabang: item.cabang,
+          barang:item.nama_barang,
           jumlah: item.jumlah,
           status: item.status,
           tanggal_pengajuan: formatTanggal(item.tanggal_transaksi),
@@ -55,6 +56,7 @@ function TableListPermintaan() {
           id: item.id,
           nama: item.nama_pemohon,
           cabang: item.role,
+          barang:item.nama_barang,
           jumlah: item.jumlah_pengajuan,
           status: item.status_transaksi,
           tanggal_pengajuan: formatTanggal(item.tanggal_transaksi),
@@ -157,6 +159,7 @@ function TableListPermintaan() {
                     <tr>
                       <th className="border-0">No</th>
                       <th className="border-0">Nama Pembuat</th>
+                      <th className="border-0">Nama Barang</th>
                       <th className="border-0">{userRole === "HQ" ? "cabang" : "track"}</th>
                       <th className="border-0">Jumlah</th>
                       <th className="border-0">Status</th>
@@ -171,8 +174,9 @@ function TableListPermintaan() {
       if (item.status !== "approved"  && item.status !== "pending" && item.status !== "rejected" ) {
         return (
           <tr key={index}>
-            <td>{index + 1}</td>
+          <td>{index+1}</td>
             <td>{item.nama}</td>
+            <td>{item.barang}</td>
             <td>{item.cabang}</td>
             <td>{item.jumlah}</td>
             <td>{item.status}</td>
@@ -222,6 +226,7 @@ function TableListPermintaan() {
           <tr key={index}>
             <td>{index + 1}</td>
             <td>{item.nama}</td>
+            <td>{item.barang}</td>
             <td>{item.cabang}</td>
             <td>{item.jumlah}</td>
             <td>{item.status}</td>
@@ -271,6 +276,7 @@ function TableListPermintaan() {
           <tr key={index}>
             <td>{index+1}</td>
             <td>{item.nama}</td>
+              <td>{item.barang}</td>
             <td>{item.cabang}</td>
             <td>{item.jumlah}</td>
             <td>{item.status}</td>
