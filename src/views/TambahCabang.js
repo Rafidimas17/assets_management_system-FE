@@ -30,8 +30,7 @@ const TambahCabang = () => {
                     icon: 'success',
                     title: 'Berhasil!',
                     text: 'Cabang berhasil ditambahkan.'
-                }).then(() => {
-                    // Redirect ke halaman /admin/list/cabang setelah menampilkan pesan berhasil
+                }).then(() => {                   
                     history.push('/admin/list-cabang');
                 });
             }

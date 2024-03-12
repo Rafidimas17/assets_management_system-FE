@@ -27,11 +27,10 @@ import TableDetailBarangCabang from "views/TableDetailBarangCabang.js";
 import BuatPermintaan from "views/BuatPermintaan.js";
 import TambahCabang from "views/TambahCabang.js";
 import TableListUser from "views/TableListUser.js";
-import Typography from "views/Typography.js";
-import Icons from "views/Icons.js";
-import Maps from "views/Maps.js";
-import Notifications from "views/Notifications.js";
-import Upgrade from "views/Upgrade.js";
+import EditCabang from "views/EditCabang.js";
+import UpdateUser from "views/UpdateUser.js";
+import UbahPersediaan from "views/UbahPersediaan.js";
+
 
 const dashboardRoutes = [  
  
@@ -45,6 +44,11 @@ const dashboardRoutes = [
   {
     path: "/persediaan/tambah",   
     component: TambahPersediaan,
+    layout: "/admin"
+  },
+  {
+    path: "/persediaan-ubah/:id",   
+    component: UbahPersediaan,
     layout: "/admin"
   },
 
@@ -79,9 +83,16 @@ const dashboardRoutes = [
     component: TambahCabang,
     layout: "/admin"
   },
-
-
-
+  {
+    path: "/edit-cabang/:id",
+    component: EditCabang,
+    layout: "/admin"
+  },
+  {
+    path: "/edit-user/:id",
+    component: UpdateUser,
+    layout: "/admin"
+  },
 
   {
     path: "/list-user",

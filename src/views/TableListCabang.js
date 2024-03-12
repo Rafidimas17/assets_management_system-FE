@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { Button, Table, Container, Row, Col } from "react-bootstrap";
-import { FaEye } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
-
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
 function TableListCabang() {
   const [cabangData, setCabangData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const history = useHistory();
-
+  const MySwal=withReactContent(Swal)
   useEffect(() => {
     const fetchCabangData = async () => {
       try {
@@ -55,6 +56,33 @@ function TableListCabang() {
   const handleTambah = () => {
     history.push('/admin/buat-cabang'); // Perubahan disini, menambahkan '/admin' sesuai dengan konfigurasi layout
   };
+  const handleEdit=(id)=>{
+    history.push(`/admin/edit-cabang/${id}`)
+  }
+  const handleDelete = async (id) => {
+    try {
+        const token = Cookies.get('token');
+        await axios.delete(`http://127.0.0.1:8000/api/center/cabang/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        MySwal.fire({
+            icon: 'success',
+            title: 'Berhasil hapus cabang!',
+            showCancelButton: false,
+            showConfirmButton: true,
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Cookies.set("token", token);
+                history.push("/admin/list-cabang");
+            }
+        });
+    } catch (error) {
+        console.error('Error deleting cabang:', error);
+    }
+}
 
   return (
     <>
@@ -86,8 +114,12 @@ function TableListCabang() {
                     <td style={{ maxWidth: "300px", wordWrap: "break-word" }}>{item.alamat}</td>
                     <td>{item.nomor_telepon}</td>
                     <td>{item.created_at}</td>
+                   
                     <td>
+                      <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={()=>handleEdit(item.id)}><FaEdit color="blue" /></Button>
                       <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={() => handleClick(item.id)}><FaEye color="yellow" /></Button>
+                      <Button variant="link" style={{ padding: "0", marginRight: "5px", border: "none" }} onClick={() => handleDelete(item.id)}><FaTrash color="red" /></Button>
+
                     </td>
                   </tr>
                 ))}

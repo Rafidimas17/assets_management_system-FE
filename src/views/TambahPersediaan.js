@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import withReactContent from 'sweetalert2-react-content';
+
 import Swal from 'sweetalert2';
 
 const API_BASE_URL = "http://127.0.0.1:8000/api/";
@@ -16,7 +18,7 @@ function TambahPersediaan() {
     kode_barang: "",
     jumlah_stock: ""
   });
-
+  const history=useHistory()
   useEffect(() => {
     const fetchCategoryOptions = async () => {
       try {
@@ -51,6 +53,7 @@ function TambahPersediaan() {
         title: 'Berhasil!',
         text: 'Barang berhasil ditambahkan.'
       });
+      history.push('/admin/persediaan-barang')
     } catch (error) {
       console.error("Error adding inventory:", error);
     }
@@ -62,7 +65,7 @@ function TambahPersediaan() {
         <Col md={{ span: 6, offset: 3 }}>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="category_id">
-              <Form.Label>Category</Form.Label>
+              <Form.Label style={{ fontFamily:"Poppins" }}>Category</Form.Label>
               <Form.Control as="select" name="category_id" onChange={handleChange}>
                 <option value="">Pilih Kategori</option>
                 {categoryOptions.map((category) => (
@@ -70,23 +73,23 @@ function TambahPersediaan() {
                 ))}
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="nama">
-              <Form.Label>Nama Barang</Form.Label>
-              <Form.Control type="text" name="nama" value={formData.nama} onChange={handleChange} required />
+            <Form.Group className="mt-2"  controlId="nama">
+              <Form.Label style={{ fontFamily:"Poppins" }}>Nama Barang</Form.Label>
+              <Form.Control type="text" name="nama" value={formData.nama}style={{ fontFamily:"Poppins" }}  onChange={handleChange} required />
             </Form.Group>
-            <Form.Group controlId="deskripsi">
-              <Form.Label>Deskripsi</Form.Label>
-              <Form.Control as="textarea" rows={3} name="deskripsi" value={formData.deskripsi} onChange={handleChange} />
+            <Form.Group className="mt-2" controlId="deskripsi">
+              <Form.Label style={{ fontFamily:"Poppins" }}>Deskripsi</Form.Label>
+              <Form.Control as="textarea" rows={3} name="deskripsi" value={formData.deskripsi} style={{ fontFamily:"Poppins" }} onChange={handleChange} />
             </Form.Group>
-            <Form.Group controlId="kode_barang">
-              <Form.Label>Kode Barang</Form.Label>
-              <Form.Control type="text" name="kode_barang" value={formData.kode_barang} onChange={handleChange} required />
+            <Form.Group className="mt-2" controlId="kode_barang">
+              <Form.Label style={{ fontFamily:"Poppins" }}>Kode Barang</Form.Label>
+              <Form.Control type="text" name="kode_barang" value={formData.kode_barang}style={{ fontFamily:"Poppins" }}  onChange={handleChange} required />
             </Form.Group>
-            <Form.Group controlId="jumlah_stock">
-              <Form.Label>Jumlah Stock</Form.Label>
-              <Form.Control type="number" name="jumlah_stock" value={formData.jumlah_stock} onChange={handleChange} required />
+            <Form.Group className="mt-2" controlId="jumlah_stock">
+              <Form.Label style={{ fontFamily:"Poppins" }}>Jumlah Stock</Form.Label>
+              <Form.Control type="number" name="jumlah_stock" value={formData.jumlah_stock} style={{ fontFamily:"Poppins" }} onChange={handleChange} required />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button className="mt-2" variant="primary" type="submit">
               Tambah
             </Button>
           </Form>

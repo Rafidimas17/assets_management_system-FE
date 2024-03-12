@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"; // Import useParams
 import Cookies from 'js-cookie'; // Import Cookies
 
 function TableDetailBarangCabang() {
-  const { id } = useParams(); // Dapatkan nilai id dari URL menggunakan useParams
+  const { id } = useParams(); 
   const [barangData, setBarangData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,12 +13,11 @@ function TableDetailBarangCabang() {
   useEffect(() => {
     const fetchBarangData = async () => {
       try {
-        const token = Cookies.get('token'); // Ambil token dari cookies
+        const token = Cookies.get('token'); 
         const response = await axios.get(`http://127.0.0.1:8000/api/center/barang/cabang/${id}`, {
-          headers: { Authorization: `Bearer ${token}` } // Sertakan token dalam header request
+          headers: { Authorization: `Bearer ${token}` } 
         });
-
-        // Mengubah format tanggal menjadi "dd/mm/yyyy"
+       
         const formattedData = response.data.map((item, index) => ({
           id: index + 1, // Ubah ID menjadi nomor urut dari 1
           nama: item.nama,
@@ -40,7 +39,7 @@ function TableDetailBarangCabang() {
     fetchBarangData();
   }, [id]);
 
-  // Function untuk mengubah format tanggal menjadi "dd/mm/yyyy"
+
   const formatDate = (tanggal) => {
     const tgl = new Date(tanggal);
     const dd = String(tgl.getDate()).padStart(2, '0');

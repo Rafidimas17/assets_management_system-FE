@@ -43,7 +43,7 @@ function TableListPermintaan() {
       });
 
       if (response.data && response.data.length > 0) {
-        const formattedData = role === "HQ" ? response.data[0].map(item => ({
+        const formattedData = role === "HQ" ? response.data.map(item => ({
           id: item.id,
           nama: item.nama,
           cabang: item.cabang,

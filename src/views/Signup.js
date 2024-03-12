@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,Component } from "react";
 import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -17,7 +18,12 @@ function SignUp() {
   const [error, setError] = useState("");
   const history = useHistory();
   const MySwal = withReactContent(Swal);
+  const [showPassword, setShowPassword] = useState(false);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  console.log(selectedRole)
   useEffect(() => {
     // Fetch role options from API
     axios.get("http://127.0.0.1:8000/api/role")
@@ -39,16 +45,28 @@ function SignUp() {
   }, []);
 
   const isFormValid = () => {
-    return (
-      email.trim() !== "" &&
-      password.trim() !== "" &&
-      username.trim() !== "" &&
-      fullName.trim() !== "" &&
-      selectedRole !== "" &&
-      selectedBranch !== "" &&
-      email.includes("@")
-    );
+    if (selectedRole === 'HQ') {
+      return (
+        email.trim() !== "" &&
+        password.trim() !== "" &&
+        username.trim() !== "" &&
+        fullName.trim() !== "" &&
+        selectedRole !== "" &&
+        email.includes("@")
+      );
+    } else {
+      return (
+        email.trim() !== "" &&
+        password.trim() !== "" &&
+        username.trim() !== "" &&
+        fullName.trim() !== "" &&
+        selectedRole !== "" &&
+        selectedBranch !== null &&
+        email.includes("@")
+      );
+    }
   };
+  
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -57,16 +75,20 @@ function SignUp() {
       return;
     }
     try {
-      const response = await axios.post(
+      let cabangIdValue = selectedBranch;
+      if (selectedRole === 'HQ') {
+        cabangIdValue = null;
+      }
+      await axios.post(
         "http://127.0.0.1:8000/api/auth/signup",
         { 
-            email, 
-            password, 
-            username, 
-            nama: fullName, 
-            role: selectedRole, 
-            cabang_id: selectedBranch 
-          }
+          email, 
+          password, 
+          username, 
+          nama: fullName, 
+          role: selectedRole, 
+          cabang_id: cabangIdValue
+        }
       );
       MySwal.fire({
         icon: 'success',
@@ -101,8 +123,8 @@ function SignUp() {
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label  style={{ fontFamily:"Poppins" }}>Username</Form.Label>
+            <Form.Group className="mt-2" controlId="formBasicUsername">
+              <Form.Label style={{ fontFamily:"Poppins" }}>Username</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter username"
@@ -112,7 +134,7 @@ function SignUp() {
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasicFullName">
+            <Form.Group className="mt-2" controlId="formBasicFullName">
               <Form.Label  style={{ fontFamily:"Poppins" }}>Full Name</Form.Label>
               <Form.Control
                 type="text"
@@ -123,18 +145,23 @@ function SignUp() {
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label  style={{ fontFamily:"Poppins" }}>Password</Form.Label>
+            <Form.Group className="mt-2" controlId="formBasicPassword">
+            <Form.Label style={{ fontFamily: "Poppins" }}>Password</Form.Label>
+            <div className="input-group">
               <Form.Control
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{ fontFamily:"Poppins" }}
+                style={{ fontFamily: "Poppins" }}
               />
-            </Form.Group>
+              <div className="d-flex align-items-center pr-2 border border-none" onClick={togglePasswordVisibility}>
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </div>
+            </div>
+          </Form.Group>
 
-            <Form.Group controlId="formRole">
+            <Form.Group className="mt-2" controlId="formRole">
               <Form.Label  style={{ fontFamily:"Poppins" }}>Role</Form.Label>
               <Form.Control
                 as="select"
@@ -149,24 +176,26 @@ function SignUp() {
                 ))}
               </Form.Control>
             </Form.Group>
-
-            <Form.Group controlId="formBranch">
-              <Form.Label  style={{ fontFamily:"Poppins" }}>Cabang</Form.Label>
+           
+            <Form.Group className="mt-2" controlId="formBranch">
+              <Form.Label style={{ fontFamily: "Poppins" }}>Cabang</Form.Label>
               <Form.Control
                 as="select"
                 value={selectedBranch}
-                style={{ fontFamily:"Poppins" }}
+                style={{ fontFamily: "Poppins" }}
                 onChange={(e) => setSelectedBranch(e.target.value)}
                 disabled={!branchOptions.length} // Disable if branchOptions is empty
               >
-                <option value=""  style={{ fontFamily:"Poppins" }}>Pilih cabang</option>
+                <option value="">Pilih cabang</option>
                 {branchOptions.map(branch => (
-                  <option key={branch.id} value={branch.id}  style={{ fontFamily:"Poppins" }}>{branch.nama_cabang}</option>
+                  <option key={branch.id} value={branch.id} style={{ fontFamily: "Poppins" }}>{branch.nama_cabang}</option>
                 ))}
               </Form.Control>
             </Form.Group>
+          
+                 
 
-            <Button variant="primary" type="submit" className="w-100 mt-3" disabled={!isFormValid()}  style={{ fontFamily:"Poppins" }}>
+            <Button variant={isFormValid() ? "primary" : "secondary"} type="submit" className="w-100 mt-3" disabled={!isFormValid()}  style={{ fontFamily:"Poppins" }}>
               Sign Up
             </Button>
           </Form>
